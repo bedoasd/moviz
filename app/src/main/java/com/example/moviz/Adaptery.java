@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Adaptery extends RecyclerView.Adapter<Adaptery.MyViewHolder> {
 
-    Context mcontext;
+    Context mcontext    ;
     List<MovieModel>mData;
 
     public Adaptery(Context mcontext, List<MovieModel> mData) {
@@ -38,7 +38,9 @@ public class Adaptery extends RecyclerView.Adapter<Adaptery.MyViewHolder> {
 
         holder.name.setText(mData.get(position).name);
         holder.id.setText(mData.get(position).getId());
-        Glide.with(mcontext).load(mData.get(position).getImg()).into(holder.img);
+        Glide.with(mcontext)
+                .load("https://image.tmdb.org/t/p/w500"+mData.get(position)
+                .getImg()).into(holder.img);
     }
 
     @Override

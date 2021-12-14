@@ -11,7 +11,10 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,12 +33,13 @@ import java.util.function.Predicate;
 public class MainActivity extends AppCompatActivity {
 
     //http://run.mocky.io/v3/79f722b0-a730-42a0-99aa-36029861f115
-    private static String json_url="http://run.mocky.io/v3/79f722b0-a730-42a0-99aa-36029861f115";
+    private static String json_url="https://api.themoviedb.org/3/movie/popular?api_key=16189ebd9e3212ad7e4a873d57713406";
     static List<MovieModel> movieList ;
     static RecyclerView recyclerView;
     static LinearLayoutManager layoutManager ;
     static Context mcontext;
 
+    private ImageView header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         layoutManager =new LinearLayoutManager(this);
         mcontext=this;
 
+        header=findViewById(R.id.headers);
+        Glide.with(this).load(R.drawable.header).into(header);
+
         GetData getData= new GetData();
         getData.execute();
 
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private class GetData extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... strings) {
-            String current = " ";
+            String current = "";
 
             try{
 
@@ -101,16 +108,16 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             try {
                 JSONObject jsonObject=new JSONObject(s);
-                JSONArray jsonArray=jsonObject.getJSONArray("moviz");
+                JSONArray jsonArray=jsonObject.getJSONArray("results");
 
                 for(int i =0 ;i<jsonArray.length();i++){
 
                     JSONObject jsonObject1 =jsonArray.getJSONObject(i);
 
                     MovieModel model =new MovieModel();
-                    model.setId(jsonObject1.getString("id"));
-                    model.setName(jsonObject1.getString("name"));
-                    model.setImg(jsonObject1.getString("image"));
+                    model.setId(jsonObject1.getString("vote_average"));
+                    model.setName(jsonObject1.getString("title"));
+                    model.setImg(jsonObject1.getString("poster_path"));
                     movieList.add(model);
 
                 }
