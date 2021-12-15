@@ -1,6 +1,7 @@
 package com.example.moviz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     static RecyclerView recyclerView;
     static LinearLayoutManager layoutManager ;
     static Context mcontext;
-
+    static  LinearLayoutManager linearLayoutManager_grid;
     private ImageView header;
 
     @Override
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         movieList=new ArrayList<>();
         recyclerView=findViewById(R.id.recyclerview);
+         linearLayoutManager_grid=new GridLayoutManager(this,3);
+
         layoutManager =new LinearLayoutManager(this);
         mcontext=this;
 
@@ -132,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         private void PutDataIntoRecyclerView(List<MovieModel> movieList) {
             Adaptery adaptery=new Adaptery(mcontext ,  movieList);
             recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setLayoutManager(linearLayoutManager_grid);
             recyclerView.setAdapter(adaptery);
         }
 
